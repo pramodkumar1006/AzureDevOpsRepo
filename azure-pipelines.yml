@@ -42,4 +42,18 @@ steps:
     appName: 'AzureWepAppDemo'
     package: '$(System.DefaultWorkingDirectory)/**/*.zip'
     deploymentMethod: 'auto'
-    
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    feedsToUse: 'select'
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Pay-As-You-Go(47efcf8e-7f88-4135-b062-60083d07a96a)'
+    appType: 'webApp'
+    WebAppName: 'DemoWebAppPR'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
